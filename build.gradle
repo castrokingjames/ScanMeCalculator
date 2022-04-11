@@ -1,16 +1,13 @@
-import @{PACKAGE_NAME}.*
+import au.com.outsourcedstaff.calculator.*
 
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
-        jcenter()
     }
     dependencies {
-        classpath Libs.Kotlin.gradlePlugin
-        classpath Libs.androidGradlePlugin
+        classpath Deps.GradlePlugin.kotlin
+        classpath Deps.GradlePlugin.android
     }
 }
 
@@ -18,8 +15,5 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        mavenLocal()
     }
 }

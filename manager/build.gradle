@@ -1,4 +1,4 @@
-import @{PACKAGE_NAME}.*
+import au.com.outsourcedstaff.calculator.*
 
 apply plugin: "kotlin"
 
@@ -8,7 +8,11 @@ sourceSets {
     test.java.srcDirs += "src/test/kotlin"
 }
 
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+}
+
 dependencies {
-    implementation Libs.Kotlin.stdlib
-    implementation Libs.Kotlin.Coroutines.core
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.Kotlin.coroutines
 }

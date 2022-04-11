@@ -1,0 +1,20 @@
+import au.com.outsourcedstaff.calculator.*
+
+apply plugin: "kotlin"
+
+sourceSets {
+    main.java.srcDirs += "src/main/kotlin"
+    main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
+    test.java.srcDirs += "src/test/kotlin"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation project(":manager")
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.Kotlin.coroutines
+    implementation Deps.Beanshell.beanshell
+}

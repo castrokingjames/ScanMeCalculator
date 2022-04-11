@@ -1,0 +1,74 @@
+import au.com.outsourcedstaff.calculator.*
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion Version.compileSdk
+
+    defaultConfig {
+        minSdkVersion Version.minSdk
+        targetSdkVersion Version.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11 
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
+        test.java.srcDirs += "src/test/kotlin"
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    flavorDimensions "theme", "system"
+
+    productFlavors {
+        red {
+            dimension "theme"
+        }
+
+        green {
+            dimension "theme"
+        }
+
+        camera {
+            dimension "system"
+        }
+
+        fs {
+            dimension "system"
+        }
+    }
+}
+
+dependencies {
+    implementation project(":ui:common")
+    implementation project(":di:scope")
+    implementation project(":manager")
+
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.AndroidX.appcompat
+    implementation Deps.AndroidX.constraintlayout
+    implementation Deps.AndroidX.Material.material
+
+    implementation Deps.Airbnb.Mavericks.mavericks
+
+    implementation Deps.Dagger.dagger
+    implementation Deps.Dagger.android
+    implementation Deps.Dagger.androidSupport
+
+    kapt Deps.Dagger.compiler
+    kapt Deps.Dagger.androidProcessor
+}

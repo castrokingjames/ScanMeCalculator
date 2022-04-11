@@ -1,0 +1,112 @@
+import au.com.outsourcedstaff.calculator.Deps
+import au.com.outsourcedstaff.calculator.Version
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+
+android {
+    Properties properties = new Properties()
+    properties.load(new FileInputStream("local.properties"))
+
+    compileSdkVersion Version.compileSdk
+
+    defaultConfig {
+        applicationId = Version.applicationId
+        minSdkVersion Version.minSdk
+        targetSdkVersion Version.targetSdk
+        versionCode = Version.code
+        versionName = Version.name
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty("STORE_FILE", "debug.keystore"))
+            storePassword properties.getProperty("STORE_PASSWORD", "android")
+            keyAlias properties.getProperty("KEY_ALIAS", "androiddebugkey")
+            keyPassword properties.getProperty("KEY_PASSWORD", "android")
+        }
+
+        debug {
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storeFile file("debug.keystore")
+            storePassword "android"
+        }
+    }
+
+    buildTypes {
+        debug {
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled = false
+            crunchPngs false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    flavorDimensions "theme", "system"
+
+    productFlavors {
+        red {
+            dimension "theme"
+        }
+
+        green {
+            dimension "theme"
+        }
+
+        camera {
+            dimension "system"
+        }
+
+        fs {
+            dimension "system"
+        }
+    }
+}
+
+dependencies {
+    implementation project(":di:scope")
+    implementation project(":di:module")
+    implementation project(":ui:common")
+    implementation project(":manager")
+    implementation project(":manager:dispatcher-android")
+    implementation project(":manager:text-recognition-firebase")
+    implementation project(":manager:expression-beanshell")
+    implementation project(":manager:expression-simple")
+    fsImplementation project(path: ":feature:home")
+    cameraImplementation project(path: ":feature:home")
+
+    implementation Deps.AndroidX.Navigation.fragment
+    implementation Deps.AndroidX.appcompat
+    implementation Deps.AndroidX.Material.material
+
+    implementation Deps.Airbnb.Mavericks.mavericks
+
+    implementation Deps.Dagger.dagger
+    implementation Deps.Dagger.android
+    implementation Deps.Dagger.androidSupport
+
+    kapt Deps.Dagger.compiler
+    kapt Deps.Dagger.androidProcessor
+}

@@ -1,29 +1,24 @@
-import @{PACKAGE_NAME}.*
+import au.com.outsourcedstaff.calculator.*
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
-apply plugin: "kotlin-android-extensions"
 
 android {
-    compileSdkVersion Config.compile
+    compileSdkVersion Version.compileSdk
 
     defaultConfig {
-        minSdkVersion Config.min
-        targetSdkVersion Config.target
-        versionCode = Config.versionCode
-        versionName = Config.versionName
+        minSdkVersion Version.minSdk
+        targetSdkVersion Version.targetSdk
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
-    packagingOptions {
-        pickFirst 'META-INF/kotlinx-io.kotlin_module'
-        pickFirst 'META-INF/atomicfu.kotlin_module'
-        pickFirst 'META-INF/kotlinx-coroutines-io.kotlin_module'
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     sourceSets {
@@ -35,17 +30,14 @@ android {
 }
 
 dependencies {
-    implementation project(":domain")
-    implementation project(":data")
-    implementation project(":data-local")
-    implementation project(":data-remote")
-    implementation project(":di-scope")
+    implementation project(":di:scope")
     implementation project(":manager")
-    implementation project(":manager-android-dispatcher")
+    implementation project(":manager:dispatcher-android")
+    implementation project(":manager:text-recognition-firebase")
+    implementation project(":manager:expression-beanshell")
+    implementation project(":manager:expression-simple")
 
-    implementation Libs.Kotlin.stdlib
-    implementation Libs.Dagger.dagger
-    implementation Libs.AssistedInject.annotationDagger2
-    kapt Libs.Dagger.compiler
-    kapt Libs.AssistedInject.processorDagger2
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.Dagger.dagger
+    kapt Deps.Dagger.compiler
 }

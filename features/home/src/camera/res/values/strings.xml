@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan">Scan</string>
+    <string name="temp_image_directory">temp</string>
+    <string name="temp_image_file_name">temp.jpg</string>
+    <string name="authorities">au.com.outsourcedstaff.calculator</string>
+</resources>
