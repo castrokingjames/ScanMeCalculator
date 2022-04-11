@@ -23,10 +23,6 @@ class HomeViewModel @AssistedInject constructor(
 
     override val coroutineContext: CoroutineContext get() = dispatcherManager.main + job
 
-    init {
-        eval("1+1")
-    }
-
     fun load(uri: Uri) {
         setState {
             copy(
